@@ -1,6 +1,7 @@
 import random
 import string
 import re
+import sqlite3
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 #charachters to form password
@@ -25,6 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(223, 436)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -65,6 +67,8 @@ class Ui_MainWindow(object):
         #generate a new pwd everytime is clicked
         self.gen_pwd_btn.clicked.connect(self.pwd_generate)
 
+        self.save_pwd_btn.clicked.connect(self.save)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "PWD Manager"))
@@ -81,7 +85,19 @@ class Ui_MainWindow(object):
         #change pwd_label with the current pwd, once the gen_pwd_btn is clicked
         self.pwd_label.setText(pwd)
 
+    #save password and wesbite info in db
+    def save(self):
+        conn = sqlite3.connect('pwd_store.db')
+        c = conn.cursor()
+        c.execute('INSERT INTO pwd_storage VALUES(:website,:password)',
+                {"website": self.website_info.text(),
+                "password": self.pwd_label.text()
+                })
+        conn.commit()
+        conn.close()
 
+        #self.pwd_label.SetText("Press 'Generate Password' for a new password")
+        #self.website_info.clear()
 
 if __name__ == "__main__":
     import sys

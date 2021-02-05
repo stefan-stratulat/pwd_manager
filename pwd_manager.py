@@ -96,8 +96,8 @@ class Ui_MainWindow(object):
         conn.commit()
         conn.close()
 
-        #self.pwd_label.SetText("Press 'Generate Password' for a new password")
-        #self.website_info.clear()
+        self.website_info.clear()
+        self.pwd_label.setText("Generate a new password")
 
 if __name__ == "__main__":
     import sys

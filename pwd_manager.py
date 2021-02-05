@@ -52,6 +52,10 @@ class Ui_MainWindow(object):
         self.website_info_label.setGeometry(QtCore.QRect(40, 30, 151, 16))
         self.website_info_label.setObjectName("website_info_label")
 
+        self.manage_pwd = QtWidgets.QPushButton(self.centralwidget)
+        self.manage_pwd.setGeometry(QtCore.QRect(30, 290, 161, 51))
+        self.manage_pwd.setObjectName("manage_pwd")
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 223, 21))
@@ -66,7 +70,7 @@ class Ui_MainWindow(object):
 
         #generate a new pwd everytime is clicked
         self.gen_pwd_btn.clicked.connect(self.pwd_generate)
-
+        #save password and website to db when clicked
         self.save_pwd_btn.clicked.connect(self.save)
 
     def retranslateUi(self, MainWindow):
@@ -76,6 +80,7 @@ class Ui_MainWindow(object):
         self.pwd_label.setText(_translate("MainWindow", "Your password will appear here"))
         self.save_pwd_btn.setText(_translate("MainWindow", "Save Password"))
         self.website_info_label.setText(_translate("MainWindow", "Add website to the box below"))
+        self.manage_pwd.setText(_translate("MainWindow", "Manage passwords"))
 
     #password generator
     def pwd_generate(self):
@@ -95,7 +100,7 @@ class Ui_MainWindow(object):
                 })
         conn.commit()
         conn.close()
-
+        #clear website info and add new text on the password label
         self.website_info.clear()
         self.pwd_label.setText("Generate a new password")
 

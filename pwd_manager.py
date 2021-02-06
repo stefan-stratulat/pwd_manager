@@ -1,6 +1,5 @@
 import random
 import string
-import re
 import sqlite3
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -95,6 +94,7 @@ class Ui_MainWindow(object):
         self.website_info.clear()
         self.pwd_label.setText("Generate a new password")
 
+    #open a new widget that shows all saved passwords
     def show_manage_passwords(self):
         self.manager_widget = QtWidgets.QWidget()
         self.ui = Ui_manager_widget()
@@ -108,5 +108,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
-

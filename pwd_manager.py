@@ -2,25 +2,14 @@ import random
 import string
 import re
 import sqlite3
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from widget_gui import Ui_manager_widget
 
 #charachters to form password
 letters = string.ascii_letters #all upper and lower case letters
 numbers = random.randint(0,9) #random number 0 to 9
 special = "@$!%*#?&" #special charachters
-
-
-# def validator():
-#     reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
-#     #compiling regex
-#     pat = re.compile(reg)
-#     #searching regex
-#     match = re.search(pat, pwd)
-#     #validation
-#     if match:
-#         print("Password is valid!")
-#     else:
-#         print('Password is invalid!')
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -72,6 +61,8 @@ class Ui_MainWindow(object):
         self.gen_pwd_btn.clicked.connect(self.pwd_generate)
         #save password and website to db when clicked
         self.save_pwd_btn.clicked.connect(self.save)
+        #open manage passwords widgets
+        self.manage_pwd.clicked.connect(self.show_manage_passwords)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -104,8 +95,13 @@ class Ui_MainWindow(object):
         self.website_info.clear()
         self.pwd_label.setText("Generate a new password")
 
+    def show_manage_passwords(self):
+        self.manager_widget = QtWidgets.QWidget()
+        self.ui = Ui_manager_widget()
+        self.ui.setupUi(self.manager_widget)
+        self.manager_widget.show()
+
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

@@ -9,27 +9,54 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import sqlite3
 
 class Ui_manager_widget(object):
+
+    #load data from DB
+    def loaddata(self):
+        conn = sqlite3.connect('pwd_store.db')
+        c = conn.cursor()
+        querry = "SELECT * FROM pwd_storage"
+        result = c.execute(querry)
+
+        #loop to insert data in table
+        for row_number, row_data in enumerate(result):
+            self.data_table.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.data_table.setItem(row_number, column_number, QtWidgets.QTableWidgetItem(str(data)))
+        conn.close()
+
     def setupUi(self, manager_widget):
         manager_widget.setObjectName("manager_widget")
         manager_widget.setEnabled(True)
-        manager_widget.resize(592, 462)
-        self.data_table = QtWidgets.QTableView(manager_widget)
-        self.data_table.setGeometry(QtCore.QRect(10, 30, 561, 401))
+        manager_widget.resize(400, 400)
+        self.data_table = QtWidgets.QTableWidget(manager_widget)
+        self.data_table.setGeometry(QtCore.QRect(70, 70, 230, 300))
+        self.data_table.setColumnCount(2)
         self.data_table.setObjectName("data_table")
+        #self.data_table.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.data_table.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.data_table.setHorizontalHeaderItem(1, item)
         self.pwd_info = QtWidgets.QLabel(manager_widget)
-        self.pwd_info.setGeometry(QtCore.QRect(30, 10, 71, 16))
+        self.pwd_info.setGeometry(QtCore.QRect(150, 20, 71, 16))
         self.pwd_info.setObjectName("pwd_info")
 
         self.retranslateUi(manager_widget)
         QtCore.QMetaObject.connectSlotsByName(manager_widget)
+        self.loaddata()
 
     def retranslateUi(self, manager_widget):
         _translate = QtCore.QCoreApplication.translate
         manager_widget.setWindowTitle(_translate("manager_widget", "Form"))
+        item = self.data_table.horizontalHeaderItem(0)
+        item.setText(_translate("manager_widget", "Website"))
+        item = self.data_table.horizontalHeaderItem(1)
+        item.setText(_translate("manager_widget", "Password"))
         self.pwd_info.setText(_translate("manager_widget", "Password view"))
+
 
 
 if __name__ == "__main__":

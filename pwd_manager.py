@@ -7,7 +7,7 @@ from widget_gui import Ui_manager_widget
 
 #charachters to form password
 letters = string.ascii_letters #all upper and lower case letters
-numbers = random.randint(0,9) #random number 0 to 9
+numbers = random.randint(0,10) #random number 0 to 9
 special = "@$!%*#?&" #special charachters
 
 class Ui_MainWindow(object):
